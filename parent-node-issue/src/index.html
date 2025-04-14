@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Stencil Component Starter</title>
+
+    <script type="module" src="/build/parent-node-issue.esm.js"></script>
+    <script nomodule src="/build/parent-node-issue.js"></script>
+  </head>
+  <body>
+    <button onclick="logParentInfo()">Get parentNode and parentElement</button>
+    <scoped-parent>
+      <div id="wrapper-div">
+        <!-- <scoped-child></scoped-child> -->
+        <shadow-child> </shadow-child>
+      </div>
+    </scoped-parent>
+
+    <script>
+      async function logParentInfo() {
+        const scopedChild = document.querySelector('scoped-child');
+        const shadowChild = document.querySelector('shadow-child');
+
+        // Get results for scoped child
+        const scopedParentNode = await scopedChild.getParentNode();
+        const scopedParentElement = await scopedChild.getParentElement();
+
+        // Get results for shadow child
+        const shadowParentNode = await shadowChild.getParentNode();
+        const shadowParentElement = await shadowChild.getParentElement();
+
+        console.table({
+          'scoped-child': {
+            parentNode: scopedParentNode?.tagName || scopedParentNode?.constructor?.name || 'unknown',
+            parentElement: scopedParentElement?.tagName || 'unknown',
+          },
+          'shadow-child': {
+            parentNode: shadowParentNode?.tagName || shadowParentNode?.constructor?.name || 'unknown',
+            parentElement: shadowParentElement?.tagName || 'unknown',
+          },
+        });
+      }
+    </script>
+  </body>
+</html>
