@@ -10,17 +10,26 @@
   </head>
   <body>
     <button onclick="logParentInfo()">Get parentNode and parentElement</button>
-    <scoped-parent>
-      <div id="wrapper-div">
-        <!-- <scoped-child></scoped-child> -->
-        <shadow-child> </shadow-child>
-      </div>
+    <h1>NOT working as expected with shadow parent</h1>
+    <scoped-parent id="scoped">
+      <scoped-child></scoped-child>
+      <shadow-child> </shadow-child>
     </scoped-parent>
+
+    <br />
+    <hr />
+    <br />
+
+    <h1>Working as expected with shadow parent</h1>
+    <shadow-parent id="shadow">
+      <scoped-child></scoped-child>
+      <shadow-child> </shadow-child>
+    </shadow-parent>
 
     <script>
       async function logParentInfo() {
-        const scopedChild = document.querySelector('scoped-child');
-        const shadowChild = document.querySelector('shadow-child');
+        const scopedChild = document.querySelector('#scoped scoped-child');
+        const shadowChild = document.querySelector('#scoped shadow-child');
 
         // Get results for scoped child
         const scopedParentNode = await scopedChild.getParentNode();
@@ -30,6 +39,20 @@
         const shadowParentNode = await shadowChild.getParentNode();
         const shadowParentElement = await shadowChild.getParentElement();
 
+        // #### Do the same for shadow parent
+
+        const shadowsScopedChild = document.querySelector('#shadow scoped-child');
+        const shadowShadowChild = document.querySelector('#shadow shadow-child');
+
+        // Get results for scoped child
+        const shadowScopedChildParentNode = await shadowsScopedChild.getParentNode();
+        const shadowScopedChildParentElement = await shadowsScopedChild.getParentElement();
+
+        // Get results for shadow child
+        const shadowShadowChildParentNode = await shadowShadowChild.getParentNode();
+        const shadowShadowChildParentElement = await shadowShadowChild.getParentElement();
+
+        console.log('#### Scoped Parent ####');
         console.table({
           'scoped-child': {
             parentNode: scopedParentNode?.tagName || scopedParentNode?.constructor?.name || 'unknown',
@@ -38,6 +61,18 @@
           'shadow-child': {
             parentNode: shadowParentNode?.tagName || shadowParentNode?.constructor?.name || 'unknown',
             parentElement: shadowParentElement?.tagName || 'unknown',
+          },
+        });
+
+        console.log('\n#### Shadow Parent ####');
+        console.table({
+          'scoped-child': {
+            parentNode: shadowScopedChildParentNode?.tagName || shadowScopedChildParentNode?.constructor?.name || 'unknown',
+            parentElement: shadowScopedChildParentElement?.tagName || 'unknown',
+          },
+          'shadow-child': {
+            parentNode: shadowShadowChildParentNode?.tagName || shadowShadowChildParentNode?.constructor?.name || 'unknown',
+            parentElement: shadowShadowChildParentElement?.tagName || 'unknown',
           },
         });
       }

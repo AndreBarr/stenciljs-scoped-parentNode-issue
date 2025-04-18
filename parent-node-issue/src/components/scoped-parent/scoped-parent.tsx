@@ -6,20 +6,13 @@ import { Component, Host, h } from '@stencil/core';
   scoped: true,
 })
 export class ScopedParent {
-  getScopedChild() {
-    return (
-      <span>
-        <scoped-child></scoped-child>
-      </span>
-    );
-  }
-
   render() {
     return (
       <Host style={{ backgroundColor: 'red' }}>
         <h2>Scoped Parent</h2>
-        {this.getScopedChild()}
-        <slot></slot>
+        <div>
+          <slot></slot>
+        </div>
       </Host>
     );
   }

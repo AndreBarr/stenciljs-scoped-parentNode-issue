@@ -6,56 +6,75 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
-    interface MyComponent {
-        /**
-          * The first name
-         */
-        "first": string;
-        /**
-          * The last name
-         */
-        "last": string;
-        /**
-          * The middle name
-         */
-        "middle": string;
+    interface ScopedChild {
+        "getParentElement": () => Promise<HTMLElement>;
+        "getParentNode": () => Promise<ParentNode>;
+    }
+    interface ScopedParent {
+    }
+    interface ShadowChild {
+        "getParentElement": () => Promise<HTMLElement>;
+        "getParentNode": () => Promise<ParentNode>;
+    }
+    interface ShadowParent {
     }
 }
 declare global {
-    interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
+    interface HTMLScopedChildElement extends Components.ScopedChild, HTMLStencilElement {
     }
-    var HTMLMyComponentElement: {
-        prototype: HTMLMyComponentElement;
-        new (): HTMLMyComponentElement;
+    var HTMLScopedChildElement: {
+        prototype: HTMLScopedChildElement;
+        new (): HTMLScopedChildElement;
+    };
+    interface HTMLScopedParentElement extends Components.ScopedParent, HTMLStencilElement {
+    }
+    var HTMLScopedParentElement: {
+        prototype: HTMLScopedParentElement;
+        new (): HTMLScopedParentElement;
+    };
+    interface HTMLShadowChildElement extends Components.ShadowChild, HTMLStencilElement {
+    }
+    var HTMLShadowChildElement: {
+        prototype: HTMLShadowChildElement;
+        new (): HTMLShadowChildElement;
+    };
+    interface HTMLShadowParentElement extends Components.ShadowParent, HTMLStencilElement {
+    }
+    var HTMLShadowParentElement: {
+        prototype: HTMLShadowParentElement;
+        new (): HTMLShadowParentElement;
     };
     interface HTMLElementTagNameMap {
-        "my-component": HTMLMyComponentElement;
+        "scoped-child": HTMLScopedChildElement;
+        "scoped-parent": HTMLScopedParentElement;
+        "shadow-child": HTMLShadowChildElement;
+        "shadow-parent": HTMLShadowParentElement;
     }
 }
 declare namespace LocalJSX {
-    interface MyComponent {
-        /**
-          * The first name
-         */
-        "first"?: string;
-        /**
-          * The last name
-         */
-        "last"?: string;
-        /**
-          * The middle name
-         */
-        "middle"?: string;
+    interface ScopedChild {
+    }
+    interface ScopedParent {
+    }
+    interface ShadowChild {
+    }
+    interface ShadowParent {
     }
     interface IntrinsicElements {
-        "my-component": MyComponent;
+        "scoped-child": ScopedChild;
+        "scoped-parent": ScopedParent;
+        "shadow-child": ShadowChild;
+        "shadow-parent": ShadowParent;
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
+            "scoped-child": LocalJSX.ScopedChild & JSXBase.HTMLAttributes<HTMLScopedChildElement>;
+            "scoped-parent": LocalJSX.ScopedParent & JSXBase.HTMLAttributes<HTMLScopedParentElement>;
+            "shadow-child": LocalJSX.ShadowChild & JSXBase.HTMLAttributes<HTMLShadowChildElement>;
+            "shadow-parent": LocalJSX.ShadowParent & JSXBase.HTMLAttributes<HTMLShadowParentElement>;
         }
     }
 }

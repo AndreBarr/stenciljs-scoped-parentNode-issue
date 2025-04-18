@@ -24,9 +24,6 @@ export const config: Config = {
     browserHeadless: 'shell',
   },
   extras: {
-    slotChildNodesFix: true,
     experimentalSlotFixes: true,
-    experimentalScopedSlotChanges: true,
-    cloneNodeFix: true,
   },
 };
